@@ -1,7 +1,7 @@
 version: '3'
 services:
   azure-vote-back:
-    image: pallooacr.azurecr.io/redis:6.0.8
+    image: pallooacr.azurecr.io/pallok8s1
     container_name: azure-vote-back
     environment:
       ALLOW_EMPTY_PASSWORD: "yes"
@@ -10,7 +10,7 @@ services:
 
   azure-vote-front:
     build: ./azure-vote
-    image: pallooacr.azurecr.io/azure-vote-front:v1
+    image: pallooacr.azurecr.io/pallok8s2:v1
     container_name: azure-vote-front
     environment:
       REDIS: azure-vote-back
