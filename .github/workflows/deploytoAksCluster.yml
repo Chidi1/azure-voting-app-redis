@@ -45,14 +45,6 @@ jobs:
         container-registry-username: ${{ secrets.acr_pallooacr_username }}
         container-registry-password: ${{ secrets.acr_pallooacr_password }}
         secret-name: pallok8sdockerauth
-
-    - uses: azure/k8s-create-secret@v1
-      with:
-        namespace: pall2nd
-        container-registry-url: pallooacr.azurecr.io
-        container-registry-username: ${{ secrets.acr_pallooacr_username }}
-        container-registry-password: ${{ secrets.acr_pallooacr_password }}
-        secret-name: pallok8sdockerauth
        
     - uses: azure/k8s-deploy@v1.2
       with:
@@ -66,14 +58,4 @@ jobs:
         imagepullsecrets: |
           pallok8sdockerauth
           
-    - uses: azure/k8s-deploy@v1.2
-      with:
-        namespace: pallo2nd
-        manifests: |
-          manifests/deployment.yml
-          manifests/service.yml
-          manifests/ingress.yml
-        images: |
-          pallooacr.azurecr.io/pallok8s2:${{ github.sha }}
-        imagepullsecrets: |
-          pallok8sdockerauth
+
