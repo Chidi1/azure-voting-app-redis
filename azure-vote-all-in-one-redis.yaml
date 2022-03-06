@@ -15,8 +15,8 @@ spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: azure-vote-back
-        image: pallooacr.azurecr.io/pallok8s1
+      - image: pallooacr.azurecr.io/pallok8s1
+        name: azure-vote-back
         env:
         - name: ALLOW_EMPTY_PASSWORD
           value: "yes"
@@ -56,8 +56,8 @@ spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: azure-vote-front
-        image: pallooacr.azurecr.io/pallok8s2:v1
+      - image: pallooacr.azurecr.io/pallok8s2:v1
+        name: azure-vote-front
         ports:
         - containerPort: 80
         resources:
