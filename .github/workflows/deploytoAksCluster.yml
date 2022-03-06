@@ -15,7 +15,7 @@ jobs:
       id: build-image
       run: |
         docker build "$GITHUB_WORKSPACE/azure-vote" -f  "azure-vote/Dockerfile" -t pallooacr.azurecr.io/pallok8s:${{ github.sha }} --label dockerfile-path=azure-vote/Dockerfile
-        docker push pallooacr.azurecr.io/pallok8s2:${{ github.sha }}
+        docker push pallooacr.azurecr.io/pallok8s:${{ github.sha }}
     
     - uses: azure/k8s-set-context@v1
       with:
@@ -28,14 +28,6 @@ jobs:
         if [ $namespacePresent -eq 0 ]
         then
             echo `kubectl create namespace pallok8saf0c`
-        fi
-
-    - name: Create namespace
-      run: |
-        namespacePresent=`kubectl get namespace | grep pallo2nd | wc -l`
-        if [ $namespacePresent -eq 0 ]
-        then
-            echo `kubectl create namespace pallo2nd`
         fi
 
     - uses: azure/k8s-create-secret@v1
