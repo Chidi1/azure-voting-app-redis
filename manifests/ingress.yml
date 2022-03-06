@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: "pallok8s-a10a"
+    labels:
+        app: "pallok8s-a10a"
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+    rules:
+        - host: pallok8saf0c-pallok8s-a10a.33beba215e9c40e181df.southafricanorth.aksapp.io
+          http:
+            paths:
+            - path: /
+              backend:
+                serviceName: "pallok8s-a10a"
+                servicePort: 80
