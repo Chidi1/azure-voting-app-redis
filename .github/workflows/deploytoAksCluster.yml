@@ -15,7 +15,7 @@ jobs:
       id: build-image
       run: |
         docker build "$GITHUB_WORKSPACE/azure-vote" -f  "azure-vote/Dockerfile" -t pallooacr.azurecr.io/pallok8s:${{ github.sha }} --label dockerfile-path=azure-vote/Dockerfile
-        docker push pallooacr.azurecr.io/pallok8s:${{ github.sha }}
+        docker push pallooacr.azurecr.io/pallok8s2:${{ github.sha }}
     
     - uses: azure/k8s-set-context@v1
       with:
@@ -30,9 +30,25 @@ jobs:
             echo `kubectl create namespace pallok8saf0c`
         fi
 
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep pallo2nd | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace pallo2nd`
+        fi
+
     - uses: azure/k8s-create-secret@v1
       with:
         namespace: pallok8saf0c
+        container-registry-url: pallooacr.azurecr.io
+        container-registry-username: ${{ secrets.acr_pallooacr_username }}
+        container-registry-password: ${{ secrets.acr_pallooacr_password }}
+        secret-name: pallok8sdockerauth
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: pall2nd
         container-registry-url: pallooacr.azurecr.io
         container-registry-username: ${{ secrets.acr_pallooacr_username }}
         container-registry-password: ${{ secrets.acr_pallooacr_password }}
@@ -47,5 +63,17 @@ jobs:
           manifests/ingress.yml
         images: |
           pallooacr.azurecr.io/pallok8s:${{ github.sha }}
+        imagepullsecrets: |
+          pallok8sdockerauth
+          
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: pallo2nd
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+          manifests/ingress.yml
+        images: |
+          pallooacr.azurecr.io/pallok8s2:${{ github.sha }}
         imagepullsecrets: |
           pallok8sdockerauth
